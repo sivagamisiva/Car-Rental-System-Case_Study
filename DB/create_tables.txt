@@ -1,0 +1,43 @@
+USE car_rental_db;
+
+-- Customer Table
+CREATE TABLE IF NOT EXISTS customer (
+    customerID INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phoneNumber VARCHAR(15) NOT NULL UNIQUE
+);
+
+-- Vehicle Table
+CREATE TABLE IF NOT EXISTS vehicle (
+    vehicleID INT PRIMARY KEY AUTO_INCREMENT,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    dailyRate FLOAT NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    passengerCapacity INT NOT NULL,
+    engineCapacity INT NOT NULL
+);
+
+-- Lease Table
+CREATE TABLE IF NOT EXISTS lease (
+    leaseID INT PRIMARY KEY AUTO_INCREMENT,
+    vehicleID INT NOT NULL,
+    customerID INT NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    type VARCHAR(20) NOT NULL,
+    FOREIGN KEY (vehicleID) REFERENCES vehicle(vehicleID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID)
+);
+
+-- Payment Table
+CREATE TABLE IF NOT EXISTS payment (
+    paymentID INT PRIMARY KEY AUTO_INCREMENT,
+    leaseID INT NOT NULL,
+    paymentDate DATE NOT NULL,
+    amount FLOAT NOT NULL,
+    FOREIGN KEY (leaseID) REFERENCES lease(leaseID)
+);
