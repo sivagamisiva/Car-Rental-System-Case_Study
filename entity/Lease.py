@@ -5,7 +5,7 @@ class Lease:
         self.__customer_id = customer_id
         self.__start_date = start_date
         self.__end_date = end_date
-        self.__lease_type = lease_type  # "Daily" or "Monthly"
+        self.__lease_type = lease_type
 
     # Getters
     def get_lease_id(self):
@@ -23,7 +23,7 @@ class Lease:
     def get_end_date(self):
         return self.__end_date
 
-    def get_lease_type(self):
+    def get_type(self):
         return self.__lease_type
 
     # Setters
@@ -42,5 +42,5 @@ class Lease:
     def set_end_date(self, end_date):
         self.__end_date = end_date
 
-    def set_lease_type(self, lease_type):
+    def set_type(self, lease_type):
         self.__lease_type = lease_type

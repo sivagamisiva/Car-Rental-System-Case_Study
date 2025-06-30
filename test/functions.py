@@ -1,8 +1,8 @@
 from entity.Vehicle import Vehicle
 from entity.Lease import Lease
-from exception.CarNotFoundException import CarNotFoundException
-from exception.CustomerNotFoundException import CustomerNotFoundException
-from exception.LeaseNotFoundException import LeaseNotFoundException
+from myexceptions.CarNotFoundException import CarNotFoundException
+from myexceptions.CustomerNotFoundException import CustomerNotFoundException
+from myexceptions.LeaseNotFoundException import LeaseNotFoundException
 
 def create_vehicle(make, model):
     if make and model:

@@ -1,8 +1,8 @@
 import unittest
 from functions import create_vehicle, create_lease, get_lease_by_id, find_customer_by_id, find_car_by_id
-from exception.CarNotFoundException import CarNotFoundException
-from exception.CustomerNotFoundException import CustomerNotFoundException
-from exception.LeaseNotFoundException import LeaseNotFoundException
+from myexceptions.CarNotFoundException import CarNotFoundException
+from myexceptions.CustomerNotFoundException import CustomerNotFoundException
+from myexceptions.LeaseNotFoundException import LeaseNotFoundException
 
 class TestCarRentalSystem(unittest.TestCase):
 
