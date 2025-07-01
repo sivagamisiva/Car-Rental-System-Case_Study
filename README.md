@@ -2,7 +2,7 @@
 The Car Rental System is a terminal-based Python application designed to manage the operations of a car rental agency. It enables users to manage cars, customers, leases, and payments through a menu-driven interface using a MySQL database.
 
 ## Project Overview
-This system helps rental businesses manage their operations efficiently. Users can add and manage customer details, keep track of vehicle availability, create leases for specific time periods (daily or monthly), and record payments.
+This system helps rental businesses manage their operations efficiently. Users can add and manage customer details, keep track of vehicle availability, create leases for specific time periods (daily or monthly), and record payments. 
 
 ## Technologies Used
 
