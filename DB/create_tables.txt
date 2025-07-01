@@ -1,6 +1,5 @@
 USE Car_Rental_System;
 
-
 CREATE TABLE customer (
     customerID INT PRIMARY KEY AUTO_INCREMENT,
     firstName VARCHAR(50) NOT NULL,
