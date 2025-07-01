@@ -25,7 +25,7 @@ This system helps rental businesses manage their operations efficiently. Users c
 
 ## Features
 
-# Vehicle Management
+ Vehicle Management
 
       - Add, remove, or search vehicles
 
@@ -33,7 +33,7 @@ This system helps rental businesses manage their operations efficiently. Users c
 
       - Count how many leases a specific car has
 
- # Customer Management
+ Customer Management
  
       - Add new customers with validations
 
@@ -41,7 +41,7 @@ This system helps rental businesses manage their operations efficiently. Users c
 
       - List all customers
 
-# Lease Management
+Lease Management
 
        - Create new leases (Daily or Monthly)
 
@@ -53,7 +53,7 @@ This system helps rental businesses manage their operations efficiently. Users c
 
        - Calculate lease cost
 
-# Payment Handling
+Payment Handling
 
        - Record payment for a lease
 
