@@ -84,7 +84,7 @@ Payment Handling
 
 ## Database Schema Overview
 
-# Tables Used:
+Tables Used:
 
      ..> vehicle – Stores car details (make, model, year, rate, capacity, etc.)
 
