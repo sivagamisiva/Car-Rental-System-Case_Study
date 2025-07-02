@@ -1,5 +1,5 @@
-from util.DBConnUtil import get_connection
-conn = get_connection()
+from util.DBConnUtil import DBConnUtil
+conn = DBConnUtil.get_connection()
 if conn is None:
     print("Failed to connect to the database. Exiting.")
     exit()
