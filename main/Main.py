@@ -5,6 +5,7 @@ from entity.Lease import Lease
 from myexceptions.CarNotFoundException import CarNotFoundException
 from myexceptions.LeaseNotFoundException import LeaseNotFoundException
 from myexceptions.CustomerNotFoundException import CustomerNotFoundException
+from tabulate import tabulate
 
 def update_customer_info(service):
     try:
@@ -15,7 +16,6 @@ def update_customer_info(service):
         print("3. Email")
         print("4. Phone Number")
         choice = input("Enter choice (1-4): ")
-
         if choice == "1":
             new_fname = input("Enter new first name: ").strip()
             if new_fname and new_fname.replace(" ", "").isalpha():
@@ -58,7 +58,6 @@ def car_management(service):
         print("4. Find Car by ID")
         print("5. Back to Main Menu")
         choice = input("Enter your choice: ")
-
         if choice == "1":
             make = input("Make: ")
             model = input("Model: ")
@@ -70,6 +69,7 @@ def car_management(service):
             vehicle = Vehicle(None, make, model, year, rate, status, pc, ec)
             vehicle_id = service.addCar(vehicle)
             print(f"Car added with ID: {vehicle_id}")
+
         elif choice == "2":
             vid = int(input("Enter Car ID to remove: "))
             try:
@@ -77,17 +77,23 @@ def car_management(service):
                 print("Car removed.")
             except CarNotFoundException as e:
                 print(e)
+
         elif choice == "3":
             cars = service.listAvailableCars()
-            for v in cars:
-                print(f"ID: {v.get_vehicle_id()}, Make: {v.get_make()}, Model: {v.get_model()}, Year: {v.get_year()}, Rate: ₹{v.get_daily_rate()}")
+            headers = ["ID", "Make", "Model", "Year", "Rate", "Status"]
+            rows = [[v.get_vehicle_id(), v.get_make(), v.get_model(), v.get_year(), f"₹{v.get_daily_rate():.2f}", v.get_status()] for v in cars]
+            print(tabulate(rows, headers=headers, tablefmt="grid"))
+
         elif choice == "4":
             vid = int(input("Enter Car ID: "))
             try:
                 v = service.findCarById(vid)
-                print(f"ID: {v.get_vehicle_id()}, Make: {v.get_make()}, Model: {v.get_model()}, Status: {v.get_status()}")
+                headers = ["ID", "Make", "Model", "Status"]
+                rows = [[v.get_vehicle_id(), v.get_make(), v.get_model(), v.get_status()]]
+                print(tabulate(rows, headers=headers, tablefmt="grid"))
             except CarNotFoundException as e:
                 print(e)
+
         elif choice == "5":
             break
         else:
@@ -103,59 +109,36 @@ def customer_management(service):
         print("5. Find Customer by ID")
         print("6. Back to Main Menu")
         choice = input("Enter your choice: ")
-
         if choice == "1":
-            # Validate First Name
-            while True:
-                fname = input("First Name: ").strip()
-                if fname and fname.replace(" ", "").isalpha():
-                    break
-                else:
-                    print("Enter again.First name must contain only letters and cannot be empty.")
-
-            # Validate Last Name
-            while True:
-                lname = input("Last Name: ").strip()
-                if lname and lname.replace(" ", "").isalpha():
-                    break
-                else:
-                    print("Enter again.Last name must contain only letters and cannot be empty.")
-
-            # Validate Email
-            while True:
-                email = input("Email: ").strip()
-                if "@" in email and email.endswith(".com"):
-                    break
-                else:
-                    print("Invalid email format.It must contain '@' and end with '.com'.")
-
-            # Validate Phone Number
-            while True:
-                phone = input("Phone Number: ").strip()
-                if len(phone) == 10 and phone.isdigit():
-                    break
-                else:
-                    print("Invalid phone number.Must be exactly 10 digits.")
-
+            fname = input("First Name: ").strip()
+            lname = input("Last Name: ").strip()
+            email = input("Email: ").strip()
+            phone = input("Phone Number: ").strip()
             customer = Customer(None, fname, lname, email, phone)
             cid = service.addCustomer(customer)
             print(f"Customer created with ID: {cid}")
 
         elif choice == "2":
             update_customer_info(service)
+
         elif choice == "3":
             cid = int(input("Enter Customer ID to remove: "))
             service.removeCustomer(cid)
             print("Customer removed.")
+
         elif choice == "4":
             customers = service.listCustomers()
-            for c in customers:
-                print(f"ID: {c.get_customer_id()}, Name: {c.get_first_name()} {c.get_last_name()}, Email: {c.get_email()}, Phone: {c.get_phone_number()}")
+            headers = ["ID", "Name", "Email", "Phone"]
+            rows = [[c.get_customer_id(), f"{c.get_first_name()} {c.get_last_name()}", c.get_email(), c.get_phone_number()] for c in customers]
+            print(tabulate(rows, headers=headers, tablefmt="grid"))
+
         elif choice == "5":
             cid = int(input("Enter Customer ID: "))
             try:
                 c = service.findCustomerById(cid)
-                print(f"ID: {c.get_customer_id()}, Name: {c.get_first_name()} {c.get_last_name()}, Email: {c.get_email()}, Phone: {c.get_phone_number()}")
+                headers = ["ID", "Name", "Email", "Phone"]
+                row = [[c.get_customer_id(), f"{c.get_first_name()} {c.get_last_name()}", c.get_email(), c.get_phone_number()]]
+                print(tabulate(row, headers=headers, tablefmt="grid"))
             except CustomerNotFoundException as e:
                 print(e)
         elif choice == "6":
@@ -173,31 +156,31 @@ def lease_management(service):
         print("5. Check Lease for Car")
         print("6. Back to Main Menu")
         choice = input("Enter your choice: ")
-
         if choice == "1":
             cust_id = int(input("Customer ID: "))
             car_id = int(input("Car ID: "))
             start = input("Start Date (YYYY-MM-DD): ")
             end = input("End Date (YYYY-MM-DD): ")
             lease_type = input("Lease Type (daily/monthly): ")
-            try:
-                lease = service.createLease(cust_id, car_id, start, end, lease_type)
-                print(f"Lease created. Lease ID: {lease.get_lease_id()}, Car ID: {lease.get_vehicle_id()}, Customer ID: {lease.get_customer_id()}")
-            except Exception as e:
-                print(e)
+            lease = service.createLease(cust_id, car_id, start, end, lease_type)
+            headers = ["LeaseID", "VehicleID", "CustomerID", "Type"]
+            row = [[lease.get_lease_id(), lease.get_vehicle_id(), lease.get_customer_id(), lease.get_type()]]
+            print(tabulate(row, headers=headers, tablefmt="grid"))
+
         elif choice == "2":
             start = input("Start Date (YYYY-MM-DD): ")
             end = input("End Date (YYYY-MM-DD): ")
             leases = service.findLease(start, end)
-            if leases:
-                for lease in leases:
-                    print(f"Lease ID: {lease.get_lease_id()}, Vehicle ID: {lease.get_vehicle_id()}, Customer ID: {lease.get_customer_id()}, Type: {lease.get_type()}")
-            else:
-                print("No leases found.")
+            headers = ["LeaseID", "VehicleID", "CustomerID", "Type"]
+            rows = [[l.get_lease_id(), l.get_vehicle_id(), l.get_customer_id(), l.get_type()] for l in leases]
+            print(tabulate(rows, headers=headers, tablefmt="grid"))
+
         elif choice == "3":
             leases = service.listLeaseHistory()
-            for lease in leases:
-                print(f"Lease ID: {lease.get_lease_id()}, Vehicle ID: {lease.get_vehicle_id()}, Customer ID: {lease.get_customer_id()}, Start: {lease.get_start_date()}, End: {lease.get_end_date()}")
+            headers = ["LeaseID", "VehicleID", "CustomerID", "Start", "End"]
+            rows = [[l.get_lease_id(), l.get_vehicle_id(), l.get_customer_id(), l.get_start_date(), l.get_end_date()] for l in leases]
+            print(tabulate(rows, headers=headers, tablefmt="grid"))
+
         elif choice == "4":
             cust_id = int(input("Enter Customer ID: "))
             count = service.getLeaseCountByCustomer(cust_id)
@@ -206,11 +189,7 @@ def lease_management(service):
         elif choice == "5":
             car_id = int(input("Enter Car ID: "))
             count = service.getLeaseCountByCar(car_id)
-            if count > 0:
-                print(f"Car {car_id} has {count} lease(s).")
-            else:
-                print(f"No lease found for car {car_id}.")
-
+            print(f"Car {car_id} has {count} lease(s).")
 
         elif choice == "6":
             break
@@ -224,16 +203,19 @@ def payment_management(service):
         print("2. Total Revenue")
         print("3. Back to Main Menu")
         choice = input("Enter your choice: ")
-
         if choice == "1":
             lease_id = int(input("Enter Lease ID: "))
             amount = float(input("Enter Payment Amount: "))
             lease = Lease(lease_id)
             service.recordPayment(lease, amount)
             print("Payment recorded.")
+
         elif choice == "2":
             total = service.getTotalRevenue()
-            print(f"Total Revenue: ₹{total}")
+            headers = ["Total Revenue"]
+            rows = [[f"₹{float(total):,.2f}"]]
+            print(tabulate(rows, headers=headers, tablefmt="grid"))
+
         elif choice == "3":
             break
         else:
@@ -249,7 +231,6 @@ def MainModule():
         print("4. Payment Management")
         print("5. Exit")
         choice = input("Enter your choice:  ")
-
         if choice == "1":
             car_management(service)
         elif choice == "2":

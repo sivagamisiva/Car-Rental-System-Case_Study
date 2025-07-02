@@ -3,13 +3,13 @@ from entity.Vehicle import Vehicle
 from entity.Customer import Customer
 from entity.Lease import Lease
 from entity.Payment import Payment
-from util.DBConnUtil import get_connection
+from util.DBConnUtil import DBConnUtil
 from myexceptions.CarNotFoundException import CarNotFoundException
 from myexceptions.CustomerNotFoundException import CustomerNotFoundException
 
 class ICarLeaseRepositoryImpl(ICarLeaseRepository):
     def __init__(self):
-        self.conn = get_connection()
+        self.conn = DBConnUtil.get_connection()
         self.cursor = self.conn.cursor()
 
     # --- Car Management ---
